@@ -1,0 +1,150 @@
+cohFam_Years <- read.csv(file="cohFam_Years.csv",head=TRUE,sep=";")
+cohFam_yearsProg <- glm(cohFam ~ yearsProg, data=cohFam_Years, family=binomial())
+summary(cohFam_yearsProg)
+
+Call:
+glm(formula = cohFam ~ yearsProg, family = binomial(), data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.6925  -0.5541  -0.4610  -0.3644   2.3821  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept) -1.20781    0.78205  -1.544    0.122
+yearsProg   -0.09806    0.08764  -1.119    0.263
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 54.741  on 78  degrees of freedom
+AIC: 58.74
+
+Number of Fisher Scoring iterations: 5
+
+>>>>>>>>>>>>>>>>>>>>>>>>>> Now, with 0-false and 1-true >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+Call:
+glm(formula = cohFam ~ yearsProg, family = binomial(), data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.5544   0.3010   0.4339   0.5765   0.8072  
+
+Coefficients:
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept)   0.8028     0.8234   0.975    0.330
+yearsProg     0.1513     0.1013   1.494    0.135
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 53.260  on 78  degrees of freedom
+AIC: 57.26
+
+Number of Fisher Scoring iterations: 6
+
+>
+
+cohFam_yearsProgLargeProj <- glm(cohFam ~ yearsProgLargeProj, data=cohFam_Years, family=binomial())
+summary(cohFam_yearsProgLargeProj)
+
+Call:
+glm(formula = cohFam ~ yearsProgLargeProj, family = binomial(), 
+    data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.5817  -0.5323  -0.4866  -0.4245   2.2143  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)   
+(Intercept)        -1.69114    0.55095  -3.069  0.00214 **
+yearsProgLargeProj -0.09575    0.11921  -0.803  0.42183   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 55.558  on 78  degrees of freedom
+AIC: 59.558
+
+Number of Fisher Scoring iterations: 5
+
+>>>>>>>>>>>>>>>>>>>>>>>>>> Now, with 0-false and 1-true >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+
+Call:
+glm(formula = cohFam ~ yearsProgLargeProj, family = binomial(), 
+    data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3137   0.3402   0.4638   0.5673   0.6896  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)  
+(Intercept)          1.3152     0.5405   2.433   0.0150 *
+yearsProgLargeProj   0.2150     0.1432   1.501   0.1333  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 53.433  on 78  degrees of freedom
+AIC: 57.433
+
+Number of Fisher Scoring iterations: 5
+
+> 
+
+
+cohFam_yearsProg_yearsProgLargProj <- glm(cohFam ~ yearsProg + yearsProgLargeProj, data=cohFam_Years, family=binomial())
+summary(cohFam_yearsProg_yearsProgLargProj)# display results
+Call:
+glm(formula = cohFam ~ yearsProg + yearsProgLargeProj, family = binomial(), 
+    data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-0.6994  -0.5646  -0.4603  -0.3569   2.2633  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)
+(Intercept)        -1.15243    0.79344  -1.452    0.146
+yearsProg          -0.08302    0.09450  -0.879    0.380
+yearsProgLargeProj -0.04783    0.13836  -0.346    0.730
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 54.620  on 77  degrees of freedom
+AIC: 60.62
+
+Number of Fisher Scoring iterations: 5
+
+>>>>>>>>>>>>>>>>>>>>>>>>>> Now, with 0-false and 1-true >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+
+Call:
+glm(formula = cohFam ~ yearsProg + yearsProgLargeProj, family = binomial(), 
+    data = cohFam_Years)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.2181   0.2523   0.4115   0.5890   0.8399  
+
+Coefficients:
+                   Estimate Std. Error z value Pr(>|z|)
+(Intercept)         0.57960    0.84220   0.688    0.491
+yearsProg           0.10608    0.09997   1.061    0.289
+yearsProgLargeProj  0.17474    0.16162   1.081    0.280
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 56.274  on 79  degrees of freedom
+Residual deviance: 52.009  on 77  degrees of freedom
+AIC: 58.009
+
+Number of Fisher Scoring iterations: 6
+
+
