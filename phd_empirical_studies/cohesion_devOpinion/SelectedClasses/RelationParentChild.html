@@ -1,0 +1,76 @@
+<div class="java" style="font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: #white;"><span style="color: #666666; font-style: italic;">/*<br />
+ * FamilyTree - Family tree modeling software <br />
+ * created for research purposes<br />
+ * Copyright - Helsinki Univerity of Technology, <br />
+ * Software Business and Engineering Institute<br />
+ * Created on 23.7.2003<br />
+ */</span><br />
+<span style="color: #000000; font-weight: bold;">package</span> <span style="color: #006699;">familytree.model</span><span style="color: #339933;">;</span><br />
+<br />
+<span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">class</span> RelationParentChild <span style="color: #000000; font-weight: bold;">extends</span> Relation <span style="color: #009900;">{</span><br />
+    <span style="color: #000000; font-weight: bold;">private</span> Person child<span style="color: #339933;">;</span><br />
+    <span style="color: #000000; font-weight: bold;">private</span> Person parent<span style="color: #339933;">;</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> RelationParentChild <span style="color: #009900;">(</span>Person child, Person parent<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">child</span> <span style="color: #339933;">=</span> child<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">parent</span> <span style="color: #339933;">=</span> parent<span style="color: #339933;">;</span>   <br />
+    <span style="color: #009900;">}</span><br />
+       <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000066; font-weight: bold;">boolean</span> isParent<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> person <span style="color: #339933;">==</span> parent<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000066; font-weight: bold;">boolean</span> isChild<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> person <span style="color: #339933;">==</span> child<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getChild<span style="color: #009900;">(</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> child<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getParent<span style="color: #009900;">(</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> parent<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPerson1<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> getParent<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPerson2<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> getChild<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000066; font-weight: bold;">boolean</span> equals<span style="color: #009900;">(</span><a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Aobject+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">Object</span></a> obj<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>obj <span style="color: #000000; font-weight: bold;">instanceof</span> RelationParentChild<span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+            RelationParentChild relation <span style="color: #339933;">=</span> <span style="color: #009900;">(</span>RelationParentChild<span style="color: #009900;">)</span> obj<span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #009900;">(</span><span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">getChild</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>relation.<span style="color: #006633;">getChild</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span> <span style="color: #339933;">&&</span> <br />
+                    <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">getParent</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>relation.<span style="color: #006633;">getParent</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        <span style="color: #009900;">}</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #000066; font-weight: bold;">false</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPartner<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>child<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> parent<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span> <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>parent<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> child<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #000066; font-weight: bold;">null</span><span style="color: #339933;">;</span>        <br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">String</span></a> getRelationType<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>child<span style="color: #009900;">)</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+            <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>parent.<span style="color: #006633;">isFemale</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+                <span style="color: #000000; font-weight: bold;">return</span> MOTHER<span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">else</span><br />
+                <span style="color: #000000; font-weight: bold;">return</span> FATHER<span style="color: #339933;">;</span><br />
+        <span style="color: #009900;">}</span> <span style="color: #000000; font-weight: bold;">else</span> <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>parent<span style="color: #009900;">)</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+            <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>child.<span style="color: #006633;">isFemale</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+                <span style="color: #000000; font-weight: bold;">return</span> DAUGHTER<span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">else</span><br />
+                <span style="color: #000000; font-weight: bold;">return</span> SON<span style="color: #339933;">;</span><br />
+        <span style="color: #009900;">}</span> <span style="color: #000000; font-weight: bold;">else</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> INVALID_RELATIONSHIP<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+<span style="color: #009900;">}</span></div>

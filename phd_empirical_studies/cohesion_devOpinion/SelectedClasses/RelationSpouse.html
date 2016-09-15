@@ -1,0 +1,91 @@
+<div class="java" style="font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: #white;"><span style="color: #666666; font-style: italic;">/*<br />
+ * FamilyTree - Family tree modeling software <br />
+ * created for research purposes<br />
+ * Copyright - Helsinki Univerity of Technology, <br />
+ * Software Business and Engineering Institute<br />
+ * Created on 23.7.2003<br />
+ */</span><br />
+<span style="color: #000000; font-weight: bold;">package</span> <span style="color: #006699;">familytree.model</span><span style="color: #339933;">;</span><br />
+<br />
+<span style="color: #000000; font-weight: bold;">import</span> <span style="color: #006699;">java.io.File</span><span style="color: #339933;">;</span><br />
+<span style="color: #000000; font-weight: bold;">import</span> <span style="color: #006699;">java.io.FileWriter</span><span style="color: #339933;">;</span><br />
+<span style="color: #000000; font-weight: bold;">import</span> <span style="color: #006699;">java.io.IOException</span><span style="color: #339933;">;</span><br />
+<span style="color: #000000; font-weight: bold;">import</span> <span style="color: #006699;">java.util.Iterator</span><span style="color: #339933;">;</span><br />
+<br />
+<span style="color: #000000; font-weight: bold;">import</span> <span style="color: #006699;">javax.swing.JOptionPane</span><span style="color: #339933;">;</span><br />
+<br />
+<span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000000; font-weight: bold;">class</span> RelationSpouse <span style="color: #000000; font-weight: bold;">extends</span> Relation <span style="color: #009900;">{</span><br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person husband<span style="color: #339933;">;</span><br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person wife<span style="color: #339933;">;</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> RelationSpouse <span style="color: #009900;">(</span>Person husband, Person wife<span style="color: #009900;">)</span><br />
+    <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">husband</span> <span style="color: #339933;">=</span> husband<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">wife</span> <span style="color: #339933;">=</span> wife<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+      <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getHusband<span style="color: #009900;">(</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> husband<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getWife<span style="color: #009900;">(</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> wife<span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPerson1<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> getWife<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPerson2<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> getHusband<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000066; font-weight: bold;">boolean</span> equals<span style="color: #009900;">(</span><a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Aobject+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">Object</span></a> obj<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>obj <span style="color: #000000; font-weight: bold;">instanceof</span> RelationSpouse<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+            RelationSpouse relation <span style="color: #339933;">=</span> <span style="color: #009900;">(</span>RelationSpouse<span style="color: #009900;">)</span> obj<span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #009900;">(</span><span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">getHusband</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>relation.<span style="color: #006633;">getHusband</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #339933;">&&</span><br />
+                    <span style="color: #000000; font-weight: bold;">this</span>.<span style="color: #006633;">getWife</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>relation.<span style="color: #006633;">getWife</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <br />
+        <span style="color: #009900;">}</span><br />
+        <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #000066; font-weight: bold;">false</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> Person getPartner<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>husband<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> wife<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span> <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>wife<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> husband<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span><span style="color: #009900;">{</span><br />
+            <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Ajoptionpane+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">JOptionPane</span></a>.<span style="color: #006633;">showMessageDialog</span><span style="color: #009900;">(</span><span style="color: #000066; font-weight: bold;">null</span>, <span style="color: #0000ff;">"Wrong person type for spouse relationship..."</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> <span style="color: #000066; font-weight: bold;">null</span><span style="color: #339933;">;</span><br />
+        <span style="color: #009900;">}</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">String</span></a> getRelationType<span style="color: #009900;">(</span>Person person<span style="color: #009900;">)</span><span style="color: #009900;">{</span><br />
+        <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>husband<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> WIFE<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span> <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>person.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>wife<span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> HUSBAND<span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">else</span><span style="color: #009900;">{</span><br />
+            <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Ajoptionpane+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">JOptionPane</span></a>.<span style="color: #006633;">showMessageDialog</span><span style="color: #009900;">(</span><span style="color: #000066; font-weight: bold;">null</span>, <span style="color: #0000ff;">"Wrong person type for spouse relationship..."</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">return</span> INVALID_RELATIONSHIP<span style="color: #339933;">;</span><br />
+        <span style="color: #009900;">}</span><br />
+    <span style="color: #009900;">}</span><br />
+    <br />
+    <span style="color: #000000; font-weight: bold;">public</span> <span style="color: #000066; font-weight: bold;">void</span> printToFile<span style="color: #009900;">(</span><a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Afile+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">File</span></a> f<span style="color: #009900;">)</span><span style="color: #000000; font-weight: bold;">throws</span> <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Aioexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">IOException</span></a><span style="color: #009900;">{</span><br />
+        <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Afilewriter+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">FileWriter</span></a> fw <span style="color: #339933;">=</span> <span style="color: #000000; font-weight: bold;">new</span> <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Afilewriter+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">FileWriter</span></a><span style="color: #009900;">(</span>f, <span style="color: #000066; font-weight: bold;">false</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        fw.<span style="color: #006633;">write</span><span style="color: #009900;">(</span><span style="color: #0000ff;">"*** Outputting RelationSpouse ***<span style="color: #000099; font-weight: bold;">\n</span>"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        fw.<span style="color: #006633;">write</span><span style="color: #009900;">(</span><span style="color: #0000ff;">"Husband: "</span><span style="color: #339933;">+</span>husband.<span style="color: #006633;">getFirstName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span>husband.<span style="color: #006633;">getLastName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">"("</span><span style="color: #339933;">+</span>husband.<span style="color: #006633;">getId</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">")<span style="color: #000099; font-weight: bold;">\n</span>"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        fw.<span style="color: #006633;">write</span><span style="color: #009900;">(</span><span style="color: #0000ff;">"Wife: "</span><span style="color: #339933;">+</span>wife.<span style="color: #006633;">getFirstName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span>wife.<span style="color: #006633;">getLastName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">"("</span><span style="color: #339933;">+</span>wife.<span style="color: #006633;">getId</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">")<span style="color: #000099; font-weight: bold;">\n</span>"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        <a style="color: #000060;" href="http://www.google.com/search?hl=en&q=allinurl%3Aiterator+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span style="color: #003399;">Iterator</span></a> it <span style="color: #339933;">=</span> husband.<span style="color: #006633;">getChildren</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">iterator</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+        <span style="color: #000000; font-weight: bold;">while</span> <span style="color: #009900;">(</span>it.<span style="color: #006633;">hasNext</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span> <span style="color: #009900;">{</span><br />
+            Person child <span style="color: #339933;">=</span> <span style="color: #009900;">(</span>Person<span style="color: #009900;">)</span> it.<span style="color: #006633;">next</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>child.<span style="color: #006633;">getGender</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>Person.<span style="color: #006633;">GENDER_FEMALE</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+                fw.<span style="color: #006633;">write</span><span style="color: #009900;">(</span><span style="color: #0000ff;">"  Daughter: "</span><span style="color: #339933;">+</span>child.<span style="color: #006633;">getFirstName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">"<span style="color: #000099; font-weight: bold;">\n</span>"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <span style="color: #000000; font-weight: bold;">else</span> <span style="color: #000000; font-weight: bold;">if</span> <span style="color: #009900;">(</span>child.<span style="color: #006633;">getGender</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span>.<span style="color: #006633;">equals</span><span style="color: #009900;">(</span>Person.<span style="color: #006633;">GENDER_MALE</span><span style="color: #009900;">)</span><span style="color: #009900;">)</span><br />
+                fw.<span style="color: #006633;">write</span><span style="color: #009900;">(</span><span style="color: #0000ff;">"  Son: "</span><span style="color: #339933;">+</span>child.<span style="color: #006633;">getFirstName</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">+</span><span style="color: #0000ff;">"<span style="color: #000099; font-weight: bold;">\n</span>"</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+            <br />
+        <span style="color: #009900;">}</span><br />
+        fw.<span style="color: #006633;">close</span><span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span><br />
+    <span style="color: #009900;">}</span><br />
+<span style="color: #009900;">}</span></div>

@@ -1,0 +1,312 @@
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.java  {font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: white;}
+.java a:link {color: #000060;}
+.java a:hover {background-color: #f0f000;}
+.java .imp {font-weight: bold; color: red;}
+.java .kw1 {color: #000000; font-weight: bold;}
+.java .kw2 {color: #000066; font-weight: bold;}
+.java .kw3 {color: #003399;}
+.java .kw4 {color: #000066; font-weight: bold;}
+.java .co1 {color: #666666; font-style: italic;}
+.java .co2 {color: #006699;}
+.java .co3 {color: #008000; font-style: italic; font-weight: bold;}
+.java .coMULTI {color: #666666; font-style: italic;}
+.java .es0 {color: #000099; font-weight: bold;}
+.java .br0 {color: #009900;}
+.java .sy0 {color: #339933;}
+.java .st0 {color: #0000ff;}
+.java .nu0 {color: #cc66cc;}
+.java .me1 {color: #006633;}
+.java .me2 {color: #006633;}
+.java span.xtra { display:block; }
+
+--!></style>
+
+<div class="java"><span class="coMULTI">/*<br />
+&nbsp;* &nbsp;This file is part of FGMP-Hotelverwaltung<br />
+&nbsp;*<br />
+&nbsp;* &nbsp;Copyright © 2011, 2010, 2009 &nbsp;Daniel Fischer, David Gawehn, Martin Meyer, Christian Pusch<br />
+&nbsp;*<br />
+&nbsp;* &nbsp;FGMP-Hotelverwaltung is free software: you can redistribute it and/or modify<br />
+&nbsp;* &nbsp;it under the terms of the GNU General Public License as published by<br />
+&nbsp;* &nbsp;the Free Software Foundation, either version 3 of the License, or<br />
+&nbsp;* &nbsp;(at your option) any later version.<br />
+&nbsp;*<br />
+&nbsp;* &nbsp;This program is distributed in the hope that it will be useful,<br />
+&nbsp;* &nbsp;but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+&nbsp;* &nbsp;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. &nbsp;See the<br />
+&nbsp;* &nbsp;GNU General Public License for more details.<br />
+&nbsp;*<br />
+&nbsp;* &nbsp;You should have received a copy of the GNU General Public License<br />
+&nbsp;* &nbsp;along with this program. &nbsp;If not, see &lt;http://www.gnu.org/licenses/&gt;.<br />
+&nbsp;*<br />
+&nbsp;*/</span><br />
+<br />
+<span class="kw1">package</span> <span class="co2">FGMP_Hotel_Management.Configuration</span><span class="sy0">;</span><br />
+<br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Language.ErrorMsg</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Language.LanguageFile</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Messaging</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.beans.XMLDecoder</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.beans.XMLEncoder</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.BufferedInputStream</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.BufferedOutputStream</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.File</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.FileInputStream</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.FileNotFoundException</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.io.FileOutputStream</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.Vector</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Level</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Logger</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">javax.swing.JOptionPane</span><span class="sy0">;</span><br />
+<br />
+<span class="co3">/**<br />
+&nbsp;* Get and set information in the main config file<br />
+&nbsp;*<br />
+&nbsp;* @author David Gawehn<br />
+&nbsp;*/</span><br />
+<span class="kw1">public</span> <span class="kw1">class</span> Main_Config2 <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> fileName<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> XMLDecoder d<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> XMLEncoder o<span class="sy0">;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> hotelAddress<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> fax<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> telephone<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> mail<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> web<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> VAT<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> invoice_Place<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> invoice_extD<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> cancellationFee <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DB_Host<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DB_Port<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DB_Name<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DB_User<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DB_Password<span class="sy0">;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Currency<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Bill_Top<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Bill_Bottom<span class="sy0">;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> languageFileAbsolutePath<span class="sy0">;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Main_Config2<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> fn<span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aexception+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Exception</span></a><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">fileName</span> <span class="sy0">=</span> fn<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">init</span><span class="br0">&#40;</span>fn<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">private</span> <span class="kw4">void</span> init<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> fn<span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aexception+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Exception</span></a><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">load_config</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">private</span> <span class="kw4">void</span> load_config<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Afilenotfoundexception+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">FileNotFoundException</span></a>, <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aarrayindexoutofboundsexception+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayIndexOutOfBoundsException</span></a><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; d <span class="sy0">=</span> <span class="kw1">new</span> XMLDecoder<span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Abufferedinputstream+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">BufferedInputStream</span></a><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Afileinputstream+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">FileInputStream</span></a><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">fileName</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">hotelAddress</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">fax</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">telephone</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">mail</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">web</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">VAT</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">invoice_Place</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">invoice_extD</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">cancellationFee</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#41;</span>d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">cancellationFee</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#41;</span>d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Name</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Host</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_User</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Port</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Password</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Currency</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Bill_Top</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Bill_Bottom</span> <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> pa <span class="sy0">=</span> <span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a><span class="br0">&#41;</span> d.<span class="me1">readObject</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span>pa <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LanguageFile.<span class="me1">applyLanguageFile</span><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Afile+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">File</span></a><span class="br0">&#40;</span>pa<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> save_config<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw1">throws</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Afilenotfoundexception+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">FileNotFoundException</span></a><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">o</span> <span class="sy0">=</span> <span class="kw1">new</span> XMLEncoder<span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Abufferedoutputstream+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">BufferedOutputStream</span></a><span class="br0">&#40;</span><span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Afileoutputstream+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">FileOutputStream</span></a><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">fileName</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>hotelAddress<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>fax<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>telephone<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>mail<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>web<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>VAT<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>invoice_Place<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>invoice_extD<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>cancellationFee<span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>cancellationFee<span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>DB_Name<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>DB_Host<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>DB_User<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>DB_Port<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>DB_Password<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>Currency<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>Bill_Top<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>Bill_Bottom<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">writeObject</span><span class="br0">&#40;</span>languageFileAbsolutePath<span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; o.<span class="me1">flush</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="coMULTI">/*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *<br />
+&nbsp; &nbsp; * &nbsp; SETs&nbsp; &nbsp; *<br />
+&nbsp; &nbsp; * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; */</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setBill_Bottom<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Bill_Bottom<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Bill_Bottom</span> <span class="sy0">=</span> Bill_Bottom<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setBill_Top<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Bill_Top<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Bill_Top</span> <span class="sy0">=</span> Bill_Top<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setCurrency<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Currency<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">Currency</span> <span class="sy0">=</span> Currency<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setLanguageFileAbsolutePath<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> LanguageFileAbsolutePath<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">languageFileAbsolutePath</span> <span class="sy0">=</span> LanguageFileAbsolutePath<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setVAT<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> vat<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">VAT</span> <span class="sy0">=</span> vat<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setInvoice_Place<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> invoice_Place<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">invoice_Place</span> <span class="sy0">=</span> invoice_Place<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setInvoice_extD<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> invoice_extD<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">invoice_extD</span> <span class="sy0">=</span> invoice_extD<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setCancellationFee<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> cancellation<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">cancellationFee</span> <span class="sy0">=</span> cancellation<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setHost<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Host<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Host</span> <span class="sy0">=</span> Host<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setPassword<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> PSWD<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Password</span> <span class="sy0">=</span> PSWD<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setPort<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aport+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Port</span></a><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Port</span> <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aport+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Port</span></a><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setUser<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> User<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_User</span> <span class="sy0">=</span> User<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setDatabase<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> DBName<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">DB_Name</span> <span class="sy0">=</span> DBName<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setHotelAddress<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> text<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">hotelAddress</span> <span class="sy0">=</span> text<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setTelephone<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> text<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">telephone</span> <span class="sy0">=</span> text<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setFax<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> text<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">fax</span> <span class="sy0">=</span> text<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setMail<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> text<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">mail</span> <span class="sy0">=</span> text<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">void</span> setWeb<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> text<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">web</span> <span class="sy0">=</span> text<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="coMULTI">/*&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *<br />
+&nbsp; &nbsp; * &nbsp; GETs&nbsp; &nbsp; *<br />
+&nbsp; &nbsp; * &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; */</span>&nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getLanguageFileAbsolutePath<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> languageFileAbsolutePath<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> getCancellationFee<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> cancellationFee<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getDB_Host<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">DB_Host</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getDB_Port<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">DB_Port</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getDB_Name<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">DB_Name</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getDB_Password<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">DB_Password</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getDB_User<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">DB_User</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getHotelAddress<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">hotelAddress</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getFax<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">fax</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getTelephone<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">telephone</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getMail<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">mail</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getWeb<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">web</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getVAT<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">VAT</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getInvoice_Place<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">invoice_Place</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getInvoice_extD<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">invoice_extD</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Avector+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Vector</span></a><span class="br0">&#91;</span><span class="br0">&#93;</span> getCancellation<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">cancellationFee</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getCurrency<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">Currency</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getBill_Top<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">Bill_Top</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getBill_Bottom<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">Bill_Bottom</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<span class="br0">&#125;</span></div>

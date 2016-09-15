@@ -1,0 +1,247 @@
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.java  {font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: #white;}
+.java a:link {color: #000060;}
+.java a:hover {background-color: #f0f000;}
+.java .imp {font-weight: bold; color: red;}
+.java .kw1 {color: #000000; font-weight: bold;}
+.java .kw2 {color: #000066; font-weight: bold;}
+.java .kw3 {color: #003399;}
+.java .kw4 {color: #000066; font-weight: bold;}
+.java .co1 {color: #666666; font-style: italic;}
+.java .co2 {color: #006699;}
+.java .co3 {color: #008000; font-style: italic; font-weight: bold;}
+.java .coMULTI {color: #666666; font-style: italic;}
+.java .es0 {color: #000099; font-weight: bold;}
+.java .br0 {color: #009900;}
+.java .sy0 {color: #339933;}
+.java .st0 {color: #0000ff;}
+.java .nu0 {color: #cc66cc;}
+.java .me1 {color: #006633;}
+.java .me2 {color: #006633;}
+.java span.xtra { display:block; }
+
+--!></style>
+
+<div class="java"><span class="coMULTI">/*<br />
+ *  This file is part of FGMP-Hotelverwaltung<br />
+ *<br />
+ *  Copyright ? 2010, 2009  Daniel Fischer, David Gawehn, Martin Meyer, Christian Pusch<br />
+ *<br />
+ *  FGMP-Hotelverwaltung is free software: you can redistribute it and/or modify<br />
+ *  it under the terms of the GNU General Public License as published by<br />
+ *  the Free Software Foundation, either version 3 of the License, or<br />
+ *  (at your option) any later version.<br />
+ *<br />
+ *  This program is distributed in the hope that it will be useful,<br />
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+ *  GNU General Public License for more details.<br />
+ *<br />
+ *  You should have received a copy of the GNU General Public License<br />
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.<br />
+ *<br />
+ */</span><br />
+<br />
+<span class="kw1">package</span> <span class="co2">FGMP_Hotel_Management.Datenbank2</span><span class="sy0">;</span><br />
+<br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Language.ErrorMsg</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.sql.*</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.ArrayList</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Level</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Logger</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">javax.swing.DefaultComboBoxModel</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">javax.swing.DefaultListModel</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">javax.swing.JOptionPane</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Messaging</span><span class="sy0">;</span><br />
+<br />
+<span class="co3">/**<br />
+ * Provide several "helpers" for the DB access<br />
+ *<br />
+ * @author Daniel Fischer, David Gawehn<br />
+ */</span><br />
+<span class="kw1">public</span> <span class="kw1">class</span> DB_Helpers <span class="br0">{</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Provides the nearest free ID of a table<br />
+     * MAY STILL BE OPTIMIZED<br />
+     *<br />
+     * @param Table     DB-Table<br />
+     * @param Column    Column IDs<br />
+     * @return          -1, if failed, otherwise ID<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> getNextID<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Column<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Statement</span></a> stmt_id <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">createStatement</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> max_id <span class="sy0">=</span> stmt_id.<span class="me1">executeQuery</span><span class="br0">(</span><span class="st0">"SELECT MAX("</span> <span class="sy0">+</span> Column <span class="sy0">+</span> <span class="st0">") FROM "</span> <span class="sy0">+</span> Table<span class="br0">)</span><span class="sy0">;</span><br />
+            max_id.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> max_id.<span class="me1">getInt</span><span class="br0">(</span><span class="nu0">1</span><span class="br0">)</span> <span class="sy0">+</span> <span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Delete a record from a table<br />
+     *<br />
+     * @param Table                 table Name<br />
+     * @param where                 column Name<br />
+     * @param what                  column entry<br />
+     * @return                      -1, if failed, otherwise 1<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> delEntry<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> where, <span class="kw4">int</span> what<span class="br0">)</span><span class="br0">{</span><br />
+        <span class="kw1">try</span><span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt_id <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"DELETE FROM "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" WHERE "</span> <span class="sy0">+</span> where <span class="sy0">+</span> <span class="st0">" = ?"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            stmt_id.<span class="me1">setInt</span><span class="br0">(</span><span class="nu0">1</span>,what<span class="br0">)</span><span class="sy0">;</span><br />
+            stmt_id.<span class="me1">execute</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span><span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            Messaging.<span class="me1">show_Dialog</span><span class="br0">(</span>ErrorMsg.<span class="me1">msg</span><span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span>, <span class="st0">"Error"</span>, <a href="http://www.google.com/search?hl=en&q=allinurl%3Ajoptionpane+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">JOptionPane</span></a>.<span class="me1">ERROR_MESSAGE</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+<br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> delEntry<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> where, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> what<span class="br0">)</span><span class="br0">{</span><br />
+        <span class="kw1">try</span><span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt_id <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"DELETE FROM "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" WHERE "</span> <span class="sy0">+</span> where <span class="sy0">+</span> <span class="st0">" = ?"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            stmt_id.<span class="me1">setString</span><span class="br0">(</span><span class="nu0">1</span>,what<span class="br0">)</span><span class="sy0">;</span><br />
+            stmt_id.<span class="me1">execute</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span><span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            Messaging.<span class="me1">show_Dialog</span><span class="br0">(</span>ErrorMsg.<span class="me1">msg</span><span class="br0">[</span><span class="nu0">1</span><span class="br0">]</span>, <span class="st0">"Error"</span>, <a href="http://www.google.com/search?hl=en&q=allinurl%3Ajoptionpane+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">JOptionPane</span></a>.<span class="me1">ERROR_MESSAGE</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+   <br />
+    <span class="co3">/**<br />
+     * Fill a combo box with entries from the database conditions<br />
+     *<br />
+     * @param Model                 DefaultComboBoxModel<br />
+     * @param List_id               ArrayList of entries to be filled<br />
+     * @param Table                 DB-Table<br />
+     * @param Column_name           DB column names<br />
+     * @param Column_ID             DB column IDs<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">void</span> getComboItems<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Adefaultcomboboxmodel+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">DefaultComboBoxModel</span></a> Model, <a href="http://www.google.com/search?hl=en&q=allinurl%3Aarraylist+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayList</span></a> List_id, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Column_name, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Column_ID<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <span class="kw1">if</span> <span class="br0">(</span>Model <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">)</span> <span class="br0">{</span><br />
+                Model.<span class="me1">removeAllElements</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+            List_id.<span class="me1">clear</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Statement</span></a> stmt <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">createStatement</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> RS <span class="sy0">=</span> stmt.<span class="me1">executeQuery</span><span class="br0">(</span><span class="st0">"SELECT * FROM "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" ORDER BY "</span> <span class="sy0">+</span> Column_ID<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">while</span> <span class="br0">(</span>RS.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                <span class="kw1">if</span> <span class="br0">(</span>Model <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">)</span> <span class="br0">{</span><br />
+                    Model.<span class="me1">addElement</span><span class="br0">(</span>RS.<span class="me1">getString</span><span class="br0">(</span>Column_name<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="br0">}</span><br />
+                List_id.<span class="me1">add</span><span class="br0">(</span>RS.<span class="me1">getString</span><span class="br0">(</span>Column_ID<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     *  Fill a JList with entries from the database conditions<br />
+     *<br />
+     * @param ListModel             DefaultListModel<br />
+     * @param Liste                 ArrayList of IDs<br />
+     * @param Table                 DB-Table<br />
+     * @param Column_name           DB-Column names<br />
+     * @param Column_ID             DB-Column IDs<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">void</span> getListItems<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Adefaultlistmodel+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">DefaultListModel</span></a> <a href="http://www.google.com/search?hl=en&q=allinurl%3Alistmodel+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ListModel</span></a>, <a href="http://www.google.com/search?hl=en&q=allinurl%3Aarraylist+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayList</span></a> Liste, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Column_name, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Column_ID<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Statement</span></a> stmt <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">createStatement</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            Liste.<span class="me1">clear</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Alistmodel+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ListModel</span></a>.<span class="me1">clear</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> rs <span class="sy0">=</span> stmt.<span class="me1">executeQuery</span><span class="br0">(</span><span class="st0">"SELECT * FROM "</span> <span class="sy0">+</span> Table<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">while</span> <span class="br0">(</span>rs.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                <a href="http://www.google.com/search?hl=en&q=allinurl%3Alistmodel+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ListModel</span></a>.<span class="me1">addElement</span><span class="br0">(</span>rs.<span class="me1">getString</span><span class="br0">(</span>Column_name<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="kw1">if</span> <span class="br0">(</span>Liste <span class="sy0">!=</span> <span class="kw2">null</span><span class="br0">)</span> <span class="br0">{</span><br />
+                    Liste.<span class="me1">add</span><span class="br0">(</span>rs.<span class="me1">getString</span><span class="br0">(</span>Column_ID<span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="br0">}</span><br />
+            <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+<span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Checks whether a room loaded from the database can be deleted<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">boolean</span> isRoomDeletable<span class="br0">(</span><span class="kw4">int</span> ID<span class="br0">)</span> <span class="br0">{</span><br />
+       <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt1 <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"SELECT * FROM booking_room WHERE room_id = ?"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            stmt1.<span class="me1">setInt</span><span class="br0">(</span><span class="nu0">1</span>, ID<span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> rs1 <span class="sy0">=</span> stmt1.<span class="me1">executeQuery</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">while</span><span class="br0">(</span>rs1.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                <span class="kw4">int</span> counter <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span><br />
+                <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt2 <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"SELECT * FROM booking WHERE booking_id= ? && paid = '0'"</span><span class="br0">)</span><span class="sy0">;</span><br />
+                stmt2.<span class="me1">setString</span><span class="br0">(</span><span class="nu0">1</span>, rs1.<span class="me1">getString</span><span class="br0">(</span><span class="st0">"booking_id"</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> rs2 <span class="sy0">=</span> stmt2.<span class="me1">executeQuery</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="kw1">while</span><span class="br0">(</span>rs2.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                    counter<span class="sy0">++;</span><br />
+                <span class="br0">}</span><br />
+                <span class="kw1">if</span> <span class="br0">(</span>counter <span class="sy0">></span> <span class="nu0">0</span><span class="br0">)</span> <span class="br0">{</span><br />
+                    <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span><br />
+                <span class="br0">}</span><br />
+            <span class="br0">}</span><br />
+<br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+    <br />
+    <span class="co3">/**<br />
+     * Returns the number rooms in use at the specified date d<br />
+     * <br />
+     * @param d date<br />
+     * @return  number of rooms<br />
+     */</span><br />
+<br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> getReservedRoomsAtDate<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Adate+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Date</span></a> d<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw4">int</span> res <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt1 <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"SELECT * FROM booking,booking_room WHERE booking.arrivaldate <= ? AND booking.departuredate >= ? AND booking.cancellation = 0 AND booking.booking_id = booking_room.booking_id"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            stmt1.<span class="me1">setDate</span><span class="br0">(</span><span class="nu0">1</span>, d<span class="br0">)</span><span class="sy0">;</span><br />
+            stmt1.<span class="me1">setDate</span><span class="br0">(</span><span class="nu0">2</span>, d<span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> rs1 <span class="sy0">=</span> stmt1.<span class="me1">executeQuery</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">while</span><span class="br0">(</span>rs1.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                res<span class="sy0">++;</span><br />
+            <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> res<span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Returns the number of rooms in the database<br />
+     *<br />
+     * @return number of rooms<br />
+     */</span><br />
+<br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> getNumberOfRooms<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw4">int</span> rooms <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> stmt1 <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"SELECT * FROM room"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Aresultset+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ResultSet</span></a> rs1 <span class="sy0">=</span> stmt1.<span class="me1">executeQuery</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">while</span> <span class="br0">(</span>rs1.<span class="me1">next</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span> <span class="br0">{</span><br />
+                rooms<span class="sy0">++;</span><br />
+            <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Helpers.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> rooms<span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<span class="br0">}</span></div>

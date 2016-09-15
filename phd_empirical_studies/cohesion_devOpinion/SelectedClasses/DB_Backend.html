@@ -1,0 +1,171 @@
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.java  {font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: white;}
+.java a:link {color: #000060;}
+.java a:hover {background-color: #f0f000;}
+.java .imp {font-weight: bold; color: red;}
+.java .kw1 {color: #000000; font-weight: bold;}
+.java .kw2 {color: #000066; font-weight: bold;}
+.java .kw3 {color: #003399;}
+.java .kw4 {color: #000066; font-weight: bold;}
+.java .co1 {color: #666666; font-style: italic;}
+.java .co2 {color: #006699;}
+.java .co3 {color: #008000; font-style: italic; font-weight: bold;}
+.java .coMULTI {color: #666666; font-style: italic;}
+.java .es0 {color: #000099; font-weight: bold;}
+.java .br0 {color: #009900;}
+.java .sy0 {color: #339933;}
+.java .st0 {color: #0000ff;}
+.java .nu0 {color: #cc66cc;}
+.java .me1 {color: #006633;}
+.java .me2 {color: #006633;}
+.java span.xtra { display:block; }
+
+--!></style>
+
+<div class="java"><span class="coMULTI">/*<br />
+&nbsp;*  This file is part of FGMP-Hotelverwaltung<br />
+ *<br />
+ *  Copyright ? 2010, 2009  Daniel Fischer, David Gawehn, Martin Meyer, Christian Pusch<br />
+ *<br />
+ *  FGMP-Hotelverwaltung is free software: you can redistribute it and/or modify<br />
+ *  it under the terms of the GNU General Public License as published by<br />
+ *  the Free Software Foundation, either version 3 of the License, or<br />
+ *  (at your option) any later version.<br />
+ *<br />
+ *  This program is distributed in the hope that it will be useful,<br />
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+ *  GNU General Public License for more details.<br />
+ *<br />
+ *  You should have received a copy of the GNU General Public License<br />
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.<br />
+ *<br />
+ */</span><br />
+<br />
+<span class="kw1">package</span> <span class="co2">FGMP_Hotel_Management.Datenbank2</span><span class="sy0">;</span><br />
+<br />
+<span class="kw1">import</span> <span class="co2">java.sql.Connection</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.sql.DriverManager</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.sql.SQLException</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Level</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Logger</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">javax.swing.JOptionPane</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">FGMP_Hotel_Management.Messaging</span><span class="sy0">;</span><br />
+<br />
+<span class="co3">/**<br />
+ * Provide methods for the connection to the database<br />
+ *<br />
+ * @author Daniel Fischer, David Gawehn<br />
+ */</span><br />
+<span class="kw1">public</span> <span class="kw1">class</span> DB_Backend <span class="br0">{</span><br />
+  <br />
+    <span class="kw1">private</span> <span class="kw1">final</span> <span class="kw1">static</span> <span class="kw4">int</span> conns<span class="sy0">=</span> <span class="nu0">5</span><span class="sy0">;</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aconnection+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Connection</span></a> <span class="br0">[</span><span class="br0">]</span> con_pool <span class="sy0">=</span> <span class="kw1">new</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aconnection+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Connection</span></a> <span class="br0">[</span>conns<span class="br0">]</span><span class="sy0">;</span><br />
+<br />
+    <span class="kw1">private</span> <span class="kw1">static</span> <span class="kw4">int</span> concount<span class="sy0">=-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Host<span class="sy0">;</span><br />
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aport+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Port</span></a><span class="sy0">;</span><br />
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Database<span class="sy0">;</span><br />
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> User<span class="sy0">;</span><br />
+    <span class="kw1">private</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Password<span class="sy0">;</span><br />
+<br />
+    <span class="kw1">public</span> DB_Backend<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> h, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> p, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> d, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> u, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> pw<span class="br0">)</span> <span class="br0">{</span><br />
+        init<span class="br0">(</span>h, p, d, u, pw<span class="br0">)</span><span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="kw1">public</span> <span class="kw4">void</span> init<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> h, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> p, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> d, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> u, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> pw<span class="br0">)</span> <span class="br0">{</span><br />
+        Host <span class="sy0">=</span> h<span class="sy0">;</span><br />
+        <a href="http://www.google.com/search?hl=en&q=allinurl%3Aport+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Port</span></a> <span class="sy0">=</span> p<span class="sy0">;</span><br />
+        Database <span class="sy0">=</span> d<span class="sy0">;</span><br />
+        User <span class="sy0">=</span> u<span class="sy0">;</span><br />
+        Password <span class="sy0">=</span> pw<span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Provide the central connection to the MySQL database<br />
+     *<br />
+     * @param host          Database computer host<br />
+     * @param database      DB name<br />
+     * @param user          DB-User<br />
+     * @param PW            User-Password<br />
+     * @return              false, if failed<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aboolean+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Boolean</span></a> connect_DB<span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> host, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> database, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> user, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> PW<span class="br0">)</span> <span class="br0">{</span><br />
+        <br />
+        <a href="http://www.google.com/search?hl=en&q=allinurl%3Aboolean+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Boolean</span></a> connected <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span><br />
+<br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <span class="kw1">Class</span>.<span class="me1">forName</span><span class="br0">(</span><span class="st0">"com.mysql.jdbc.Driver"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <br />
+                <span class="kw1">try</span> <span class="br0">{</span><br />
+                    <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0"><</span><span class="nu0">5</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span><br />
+                        con_pool<span class="br0">[</span>i<span class="br0">]</span> <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Adrivermanager+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">DriverManager</span></a>.<span class="me1">getConnection</span><span class="br0">(</span><span class="st0">"jdbc:mysql://"</span> <span class="sy0">+</span> host <span class="sy0">+</span> <span class="st0">"/"</span> <span class="sy0">+</span> database, user, PW<span class="br0">)</span><span class="sy0">;</span><br />
+                    <span class="br0">}</span><br />
+                    connected <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span><br />
+                    <br />
+                <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+                    Messaging.<span class="me1">show_Dialog</span><span class="br0">(</span>ex.<span class="me1">toString</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">substring</span><span class="br0">(</span>ex.<span class="me1">toString</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">indexOf</span><span class="br0">(</span><span class="st0">":"</span><span class="br0">)</span><span class="sy0">+</span><span class="nu0">1</span><span class="br0">)</span>, <span class="st0">"Error"</span>, <a href="http://www.google.com/search?hl=en&q=allinurl%3Ajoptionpane+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">JOptionPane</span></a>.<span class="me1">ERROR_MESSAGE</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Aclassnotfoundexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ClassNotFoundException</span></a> e<span class="br0">)</span> <span class="br0">{</span><br />
+            e.<span class="me1">printStackTrace</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> connected<span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Provide the central connection to the MySQL database<br />
+     */</span><br />
+    <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aboolean+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Boolean</span></a> connect_DB<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span><br />
+<br />
+        <a href="http://www.google.com/search?hl=en&q=allinurl%3Aboolean+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Boolean</span></a> connected <span class="sy0">=</span> <span class="kw2">false</span><span class="sy0">;</span><br />
+<br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <span class="kw1">Class</span>.<span class="me1">forName</span><span class="br0">(</span><span class="st0">"com.mysql.jdbc.Driver"</span><span class="br0">)</span><span class="sy0">;</span><br />
+<br />
+                <span class="kw1">try</span> <span class="br0">{</span><br />
+                    <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0"><</span>conns<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span><br />
+                        con_pool<span class="br0">[</span>i<span class="br0">]</span> <span class="sy0">=</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Adrivermanager+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">DriverManager</span></a>.<span class="me1">getConnection</span><span class="br0">(</span><span class="st0">"jdbc:mysql://"</span> <span class="sy0">+</span> Host.<span class="me1">concat</span><span class="br0">(</span><span class="st0">":"</span><span class="br0">)</span>.<span class="me1">concat</span><span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Aport+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Port</span></a><span class="br0">)</span>.<span class="me1">concat</span><span class="br0">(</span><span class="st0">"/"</span><span class="br0">)</span>.<span class="me1">concat</span><span class="br0">(</span>Database<span class="br0">)</span>, User, Password<span class="br0">)</span><span class="sy0">;</span><br />
+                    <span class="br0">}</span><br />
+                    connected <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span><br />
+<br />
+                <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+                    ex.<span class="me1">printStackTrace</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+                <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Aclassnotfoundexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ClassNotFoundException</span></a> e<span class="br0">)</span> <span class="br0">{</span><br />
+            e.<span class="me1">printStackTrace</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> connected<span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Closing the database connection<br />
+     **/</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">void</span> close_DB<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0"><</span>conns<span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span><br />
+                <span class="kw1">if</span> <span class="br0">(</span>con_pool<span class="br0">[</span>i<span class="br0">]</span><span class="sy0">!=</span><span class="kw2">null</span><span class="br0">)</span><br />
+                    con_pool<span class="br0">[</span>i<span class="br0">]</span>.<span class="me1">close</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_Backend.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Obtain a connection from the connection pool<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Aconnection+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Connection</span></a> getConnection<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span><br />
+<br />
+        <span class="kw1">if</span> <span class="br0">(</span>concount<span class="sy0"><</span>conns<span class="sy0">-</span><span class="nu0">1</span><span class="br0">)</span> <span class="br0">{</span><br />
+            concount<span class="sy0">++;</span><br />
+        <span class="br0">}</span> <span class="kw1">else</span> <span class="br0">{</span><br />
+            concount<span class="sy0">=</span><span class="nu0">0</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+        <span class="kw1">return</span> con_pool<span class="br0">[</span>concount<span class="br0">]</span><span class="sy0">;</span><br />
+    <span class="br0">}</span><br />
+        <br />
+<span class="br0">}</span></div>

@@ -1,0 +1,106 @@
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.java  {font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: white;}
+.java a:link {color: #000060;}
+.java a:hover {background-color: #f0f000;}
+.java .imp {font-weight: bold; color: red;}
+.java .kw1 {color: #000000; font-weight: bold;}
+.java .kw2 {color: #000066; font-weight: bold;}
+.java .kw3 {color: #003399;}
+.java .kw4 {color: #000066; font-weight: bold;}
+.java .co1 {color: #666666; font-style: italic;}
+.java .co2 {color: #006699;}
+.java .co3 {color: #008000; font-style: italic; font-weight: bold;}
+.java .coMULTI {color: #666666; font-style: italic;}
+.java .es0 {color: #000099; font-weight: bold;}
+.java .br0 {color: #009900;}
+.java .sy0 {color: #339933;}
+.java .st0 {color: #0000ff;}
+.java .nu0 {color: #cc66cc;}
+.java .me1 {color: #006633;}
+.java .me2 {color: #006633;}
+.java span.xtra { display:block; }
+
+--!></style>
+<div class="java"><span class="coMULTI">/*<br />
+&nbsp;* FamilyTree - Family tree modeling software <br />
+&nbsp;* created for research purposes<br />
+&nbsp;* Copyright - Helsinki Univerity of Technology, <br />
+&nbsp;* Software Business and Engineering Institute<br />
+&nbsp;* Created on 23.7.2003<br />
+&nbsp;*/</span><br />
+<span class="kw1">package</span> <span class="co2">familytree.model</span><span class="sy0">;</span><br />
+<br />
+<span class="kw1">public</span> <span class="kw1">class</span> RelationParentChild <span class="kw1">extends</span> Relation <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> Person child<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="kw1">private</span> Person parent<span class="sy0">;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> RelationParentChild <span class="br0">&#40;</span>Person child, Person parent<span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">child</span> <span class="sy0">=</span> child<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">parent</span> <span class="sy0">=</span> parent<span class="sy0">;</span> &nbsp; <br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">boolean</span> isParent<span class="br0">&#40;</span>Person person<span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> person <span class="sy0">==</span> parent<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Person getChild<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> child<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Person getParent<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> parent<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> <span class="kw4">boolean</span> equals<span class="br0">&#40;</span><a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Aobject+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Object</span></a> obj<span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span>obj <span class="kw1">instanceof</span> RelationParentChild<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; RelationParentChild relation <span class="sy0">=</span> <span class="br0">&#40;</span>RelationParentChild<span class="br0">&#41;</span> obj<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> relation.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&amp;&amp;</span> <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">this</span>.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">==</span> relation.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="co3">/**<br />
+&nbsp; &nbsp; &nbsp;* Get the type of the relation as String.<br />
+&nbsp; &nbsp; &nbsp;* <br />
+&nbsp; &nbsp; &nbsp;* @param person The person whose relation to the other person is returned.<br />
+&nbsp; &nbsp; &nbsp;* E.g if person=child -&gt; return &quot;parent&quot;<br />
+&nbsp; &nbsp; &nbsp;* <br />
+&nbsp; &nbsp; &nbsp;* @return The relation type as String<br />
+&nbsp; &nbsp; &nbsp;*/</span><br />
+&nbsp; &nbsp; <span class="kw1">public</span> <a href="http://www.google.com/search?hl=en&amp;q=allinurl%3Astring+java.sun.com&amp;btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> getRelationType<span class="br0">&#40;</span>Person person<span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span>person.<span class="me1">equals</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">isFemale</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> MOTHER<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> FATHER<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span> <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>person.<span class="me1">equals</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span>.<span class="me1">isFemale</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> DAUGHTER<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> SON<span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="br0">&#125;</span> <span class="kw1">else</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> INVALID_RELATIONSHIP<span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Person getPartner<span class="br0">&#40;</span>Person person<span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">if</span> <span class="br0">&#40;</span>person.<span class="me1">equals</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span> <span class="kw1">if</span> <span class="br0">&#40;</span>person.<span class="me1">equals</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">getParent</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">getChild</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">else</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> <span class="kw2">null</span><span class="sy0">;</span>&nbsp; &nbsp; &nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Person getPerson1<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> getParent<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+&nbsp; &nbsp; <br />
+&nbsp; &nbsp; <span class="kw1">public</span> Person getPerson2<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span class="kw1">return</span> getChild<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span><br />
+&nbsp; &nbsp; <span class="br0">&#125;</span><br />
+<span class="br0">&#125;</span></div>

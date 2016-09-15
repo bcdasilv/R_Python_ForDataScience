@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>RelationParentChild.java</title>
+	<script type="text/javascript" src="shCore.js"></script>
+	<script type="text/javascript" src="shBrushJava.js"></script>
+	<link type="text/css" rel="stylesheet" href="shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+</head>
+
+<body style="background: white; font-family: Helvetica">
+
+<h1>RelationParentChild.java</h1>
+<pre class="brush: java;">
+/*
+ * FamilyTree - Family tree modeling software 
+ * created for research purposes
+ * Copyright - Helsinki Univerity of Technology, 
+ * Software Business and Engineering Institute
+ * Created on 23.7.2003
+ */
+package familytree.model;
+
+public class RelationParentChild extends Relation {
+    private Person child;
+    private Person parent;
+    
+    public RelationParentChild (Person child, Person parent){
+        this.child = child;
+        this.parent = parent; 	
+    }
+    
+    public boolean isParent(Person person){
+        return person == parent;
+    }
+    
+    public Person getChild() {
+        return child;
+    }
+    
+    public Person getParent() {
+        return parent;
+    }
+    
+    public boolean equals(Object obj){
+        if (obj instanceof RelationParentChild) {
+            RelationParentChild relation = (RelationParentChild) obj;
+            return (this.getChild() == relation.getChild() && 
+                    this.getParent() == relation.getParent());
+        }
+        return false;
+    }
+    
+    /**
+     * Get the type of the relation as String.
+     * 
+     * @param person The person whose relation to the other person is returned.
+     * E.g if person=child -> return "parent"
+     * 
+     * @return The relation type as String
+     */
+    public String getRelationType(Person person) {
+        if (person.equals(this.getChild())) {
+            if (this.getParent().isFemale())
+                return MOTHER;
+            else
+                return FATHER;
+        } else if (person.equals(this.getParent())) {
+            if (this.getChild().isFemale())
+                return DAUGHTER;
+            else
+                return SON;
+        } else
+			return INVALID_RELATIONSHIP;
+    }
+    
+    public Person getPartner(Person person){
+        if (person.equals(this.getChild()))
+            return this.getParent();
+        else if (person.equals(this.getParent()))
+            return this.getChild();
+        else
+            return null;		
+    }
+    
+    public Person getPerson1(){
+        return getParent();
+    }
+    
+    public Person getPerson2(){
+        return getChild();
+    }
+}
+</pre>
+
+</html>

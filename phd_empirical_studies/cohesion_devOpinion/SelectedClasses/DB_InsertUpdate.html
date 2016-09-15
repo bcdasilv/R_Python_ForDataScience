@@ -1,0 +1,133 @@
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.java  {font-family:courier;color: #006; border: 1px solid #d0d0d0; background-color: #white;}
+.java a:link {color: #000060;}
+.java a:hover {background-color: #f0f000;}
+.java .imp {font-weight: bold; color: red;}
+.java .kw1 {color: #000000; font-weight: bold;}
+.java .kw2 {color: #000066; font-weight: bold;}
+.java .kw3 {color: #003399;}
+.java .kw4 {color: #000066; font-weight: bold;}
+.java .co1 {color: #666666; font-style: italic;}
+.java .co2 {color: #006699;}
+.java .co3 {color: #008000; font-style: italic; font-weight: bold;}
+.java .coMULTI {color: #666666; font-style: italic;}
+.java .es0 {color: #000099; font-weight: bold;}
+.java .br0 {color: #009900;}
+.java .sy0 {color: #339933;}
+.java .st0 {color: #0000ff;}
+.java .nu0 {color: #cc66cc;}
+.java .me1 {color: #006633;}
+.java .me2 {color: #006633;}
+.java span.xtra { display:block; }
+
+--!></style>
+
+<div class="java"><span class="coMULTI">/*<br />
+ *  This file is part of FGMP-Hotelverwaltung<br />
+ *<br />
+ *  Copyright ? 2010, 2009  Daniel Fischer, David Gawehn, Martin Meyer, Christian Pusch<br />
+ *<br />
+ *  FGMP-Hotelverwaltung is free software: you can redistribute it and/or modify<br />
+ *  it under the terms of the GNU General Public License as published by<br />
+ *  the Free Software Foundation, either version 3 of the License, or<br />
+ *  (at your option) any later version.<br />
+ *<br />
+ *  This program is distributed in the hope that it will be useful,<br />
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of<br />
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the<br />
+ *  GNU General Public License for more details.<br />
+ *<br />
+ *  You should have received a copy of the GNU General Public License<br />
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.<br />
+ *<br />
+ */</span><br />
+<br />
+<span class="kw1">package</span> <span class="co2">FGMP_Hotel_Management.Datenbank2</span><span class="sy0">;</span><br />
+<br />
+<span class="kw1">import</span> <span class="co2">java.sql.PreparedStatement</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.sql.SQLException</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.sql.Statement</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.ArrayList</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Level</span><span class="sy0">;</span><br />
+<span class="kw1">import</span> <span class="co2">java.util.logging.Logger</span><span class="sy0">;</span><br />
+<br />
+<span class="co3">/**<br />
+ * Provide methods to write (insert/update) to the database<br />
+ * <br />
+ * @author Daniel Fischer, David Gawehn<br />
+ */</span><br />
+<span class="kw1">public</span> <span class="kw1">class</span> DB_InsertUpdate <span class="br0">{</span><br />
+<br />
+    <span class="co3">/**<br />
+     * Create a new record in a table<br />
+     *<br />
+     * @param Table     Target table to be written<br />
+     * @param Values    ArrayList of data, length of the list must be the same number of table columns<br />
+     * @return          1, when written, -1 if not written<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> insertAt <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Aarraylist+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayList</span></a> Values<span class="br0">)</span> <span class="br0">{</span><br />
+<br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> values <span class="sy0">=</span> <span class="st0">""</span><span class="sy0">;</span><br />
+            <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0"><</span> Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">)</span> <span class="br0">{</span><br />
+                values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><span class="st0">"'"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>i<span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"',"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+            values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><span class="st0">"'"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"'"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">Statement</span></a> statement <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">createStatement</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw4">int</span> insertAt <span class="sy0">=</span> statement.<span class="me1">executeUpdate</span><span class="br0">(</span><span class="st0">"INSERT INTO "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" VALUES ("</span> <span class="sy0">+</span> values <span class="sy0">+</span> <span class="st0">")"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> insertAt<span class="sy0">;</span><br />
+<br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_InsertUpdate.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+<br />
+    <span class="co3">/**<br />
+     * Update the record in a table where the column "where" and the value of "what" are given<br />
+     *<br />
+     * @param Table     target table<br />
+     * @param Values    the values in the form: "Column Name", value, "Column Name", value...<br />
+     * @param where     column for the where clause<br />
+     * @param what      value for the condition<br />
+     * @return          1, when successful; -1, when not<br />
+     */</span><br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> update <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Aarraylist+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayList</span></a> Values, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> where, <span class="kw4">int</span> what<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> values <span class="sy0">=</span> <span class="st0">""</span><span class="sy0">;</span><br />
+            <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0"><</span> Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">2</span><span class="sy0">;</span> i <span class="sy0">+=</span> <span class="nu0">2</span><span class="br0">)</span> <span class="br0">{</span><br />
+                values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>i<span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"='"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>i <span class="sy0">+</span> <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"', "</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+            values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">2</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"='"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"'"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> statement <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"UPDATE "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" SET "</span> <span class="sy0">+</span> values <span class="sy0">+</span> <span class="st0">" WHERE "</span> <span class="sy0">+</span> where <span class="sy0">+</span> <span class="st0">"= ? LIMIT 1"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            statement.<span class="me1">setInt</span><span class="br0">(</span><span class="nu0">1</span>,what<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw4">int</span> update <span class="sy0">=</span> statement.<span class="me1">executeUpdate</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> update<span class="sy0">;</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_InsertUpdate.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<br />
+    <span class="kw1">public</span> <span class="kw1">static</span> <span class="kw4">int</span> update <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> Table, <a href="http://www.google.com/search?hl=en&q=allinurl%3Aarraylist+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">ArrayList</span></a> Values, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> where, <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> what<span class="br0">)</span> <span class="br0">{</span><br />
+        <span class="kw1">try</span> <span class="br0">{</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a> values <span class="sy0">=</span> <span class="st0">""</span><span class="sy0">;</span><br />
+            <span class="kw1">for</span> <span class="br0">(</span><span class="kw4">int</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0"><</span> Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">2</span><span class="sy0">;</span> i <span class="sy0">+=</span> <span class="nu0">2</span><span class="br0">)</span> <span class="br0">{</span><br />
+                values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>i<span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"='"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>i <span class="sy0">+</span> <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"', "</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="br0">}</span><br />
+            values <span class="sy0">=</span> values.<span class="me1">concat</span><span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">2</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"='"</span> <span class="sy0">+</span> <a href="http://www.google.com/search?hl=en&q=allinurl%3Astring+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">String</span></a>.<span class="me1">valueOf</span><span class="br0">(</span>Values.<span class="me1">get</span><span class="br0">(</span>Values.<span class="me1">size</span><span class="br0">(</span><span class="br0">)</span> <span class="sy0">-</span> <span class="nu0">1</span><span class="br0">)</span><span class="br0">)</span> <span class="sy0">+</span> <span class="st0">"'"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <a href="http://www.google.com/search?hl=en&q=allinurl%3Apreparedstatement+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">PreparedStatement</span></a> statement <span class="sy0">=</span> DB_Backend.<span class="me1">getConnection</span><span class="br0">(</span><span class="br0">)</span>.<span class="me1">prepareStatement</span><span class="br0">(</span><span class="st0">"UPDATE "</span> <span class="sy0">+</span> Table <span class="sy0">+</span> <span class="st0">" SET "</span> <span class="sy0">+</span> values <span class="sy0">+</span> <span class="st0">" WHERE "</span> <span class="sy0">+</span> where <span class="sy0">+</span> <span class="st0">"= ? LIMIT 1"</span><span class="br0">)</span><span class="sy0">;</span><br />
+            statement.<span class="me1">setString</span><span class="br0">(</span><span class="nu0">1</span>,what<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw4">int</span> update <span class="sy0">=</span> statement.<span class="me1">executeUpdate</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> update<span class="sy0">;</span><br />
+        <span class="br0">}</span> <span class="kw1">catch</span> <span class="br0">(</span><a href="http://www.google.com/search?hl=en&q=allinurl%3Asqlexception+java.sun.com&btnI=I%27m%20Feeling%20Lucky"><span class="kw3">SQLException</span></a> ex<span class="br0">)</span> <span class="br0">{</span><br />
+            Logger.<span class="me1">getLogger</span><span class="br0">(</span>DB_InsertUpdate.<span class="kw1">class</span>.<span class="me1">getName</span><span class="br0">(</span><span class="br0">)</span><span class="br0">)</span>.<span class="me1">log</span><span class="br0">(</span>Level.<span class="me1">SEVERE</span>, <span class="kw2">null</span>, ex<span class="br0">)</span><span class="sy0">;</span><br />
+            <span class="kw1">return</span> <span class="sy0">-</span><span class="nu0">1</span><span class="sy0">;</span><br />
+        <span class="br0">}</span><br />
+    <span class="br0">}</span><br />
+<span class="br0">}</span></div>

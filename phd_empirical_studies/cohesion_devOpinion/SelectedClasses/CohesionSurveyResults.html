@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<meta name="Description" content="Information architecture, Web Design, Web Standards." />
+<meta name="Keywords" content="your, keywords" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="Distribution" content="Global" />
+<meta name="Author" content="Erwin Aligam - ealigam@gmail.com" />
+<meta name="Robots" content="index,follow" />
+
+<link rel="stylesheet" href="images/Envision.css" type="text/css" />
+
+<title>An Empirical Study on How Developers Reason about Module Cohesion</title>
+	
+</head>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17509095-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<body>
+<!-- wrap starts here -->
+<div id="wrap">
+		
+		<!--header -->
+		<div id="header">			
+				
+			<h1 id="logo-text2"><a href="CohesionSurveyResults.html">An Empirical Study on How Developers Reason about Module Cohesion</a></h1>		
+			<p id="slogan">Online Appendix</p>		
+			
+			<div id="header-links">
+			<p>
+				<a href="index.html">Home</a> | 
+				<a href="contact.html">Contact</a> | 	
+			</p>		
+		</div>		
+						
+		</div>
+		
+		<!-- menu -->	
+		<div  id="menu">
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="research.html">Research</a></li>
+				<li><a href="resume.html">Resumé</a></li>
+				<li><a href="publication.html">Publications</a></li>
+				<li class="last"><a href="teaching.html">Teaching</a></li>
+			</ul>
+		</div>					
+			
+		<!-- content-wrap starts here -->
+		<div id="content-wrap">
+				
+			<div id="sidebar">
+			
+				<!-- <h3>Search Box</h3>	
+				<form action="#" class="searchform">
+					<p>
+					<input name="search_query" class="textbox" type="text" />
+  					<input name="search" class="button" value="Search" type="submit" />
+					</p>			
+				</form>	-->
+					
+				<h3>Sidebar Menu</h3>
+				<ul class="sidemenu">				
+					<li><a href="index.html">Home</a></li>
+					<li><a href="research.html">Research</a></li>
+					<li><a href="resume.html">Resumé</a></li>
+					<li><a href="publications.html">Publications</a></li>
+					<li><a href="teaching.html">Teaching</a></li>
+				</ul>	
+				
+			
+				<h3>Links</h3>
+				<ul class="sidemenu">
+					<li><a href="http://wiki.dcc.ufba.br/LES">LES - UFBA</a></li>
+					<li><a href="http://wiki.dcc.ufba.br/Aside">aSide Group</a></li>
+					<li><a href="http://www.inf.ufrgs.br/prosoft">Prosoft Group</a></li>
+					<li><a href="http://www.aosd.net">AOSD Community</a></li>					
+					<li><a href="http://www.ieee.org">IEEE</a></li>
+					<li><a href="http://www.acm.org/">ACM</a></li>
+					<li><a href="http://www.phdcomics.com/comics.php">PhD Comics</a></li>
+					<li><a href="http://www.cnpq.br/">CNPQ</a></li>
+					<li><a href="http://www.fapesb.ba.gov.br/">FAPESB</a></li>						
+				</ul>
+			
+				<!-- <h3>Sponsors</h3>
+				<ul class="sidemenu">
+					<li><a href="http://www.4templates.com/?aff=ealigam"><strong>4templates</strong></a> <br /> Low Cost Hi-Quality Templates</li>
+					<li><a href="http://store.templatemonster.com?aff=ealigam"><strong>TemplateMonster</strong></a> <br /> Delivering the Best Templates on the Net!</li>
+					<li><a href="http://tinyurl.com/3cgv2m"><strong>Text Link Ads</strong></a> <br /> Monetized your website</li>
+					<li><a href="http://www.fotolia.com/partner/114283"><strong>Fotolia</strong></a> <br /> Free stock images or from $1</li>
+					<li><a href="http://www.dreamstime.com/res338619"><strong>Dreamstime</strong></a> <br /> Lowest Price for High Quality Stock Photos</li>
+					<li><a href="http://www.dreamhost.com/r.cgi?287326"><strong>Dreamhost</strong></a> <br /> Premium webhosting</li>
+				</ul> -->
+				
+				<!-- <h3>Wise Words</h3> -->
+				<div class="left-box">
+					<p>&quot;Acredito ser o nosso dever difundir a ciência para melhor desenvolvê-la.&quot; </p>
+					
+					<p class="align-right">- Galileu Galilei</p>
+				</div>	
+				
+				<!-- <h3>Support Styleshout</h3>
+				<div class="left-box">
+					<p>If you are interested in supporting my work and would like to contribute, you are
+					welcome to make a small donation through the 
+					<a href="http://www.styleshout.com/">donate link</a> on my website - it will 
+					be a great help and will surely be appreciated.</p>
+				</div>							-->
+								
+			</div>
+				
+			<div id="main">
+			
+			<p>
+				<center><a href="http://aosd.net/2014/" target="_blank"><img src="images/modularity14_1.png" border="0"  alt="MODULARITY 2014" title="MODULARITY2014" /></a></center>
+			</p>
+								
+			<h3>An Empirical Study on How Developers Reason about Module Cohesion</h3>
+				
+			<p>Several cohesion metrics have been proposed to support development and maintenance activities. 
+			The most traditional ones are the structural cohesion metrics, which rely on structural information 
+			in the source code. For instance, many of these metrics quantify cohesion based how methods and 
+			attributes are related to each other within a given module. Recently, conceptual cohesion metrics 
+			have been proposed for computing cohesion based on the responsibilities a given module realizes. 
+			Besides different flavors of cohesion, there is a lack of empirical evidence about how developers
+			actually perceive cohesion and what kind of cohesion measurement aligns with developers' perception.
+			In this paper we fill this gap by empirically investigating developers opinion through a web-based survey,
+			which involved 80 participants from 9 countries with different levels of programming experience. 
+			We found that: most of the developers are familiar with cohesion; and they perceive cohesion based 
+			on class responsibilities, thus associating more with conceptual cohesion measurement. These results
+			support the claim that conceptual cohesion seems to be more intuitive and closer to the human-oriented 
+			view of software cohesion. Moreover, the results showed that conceptual cohesion measurement captures 
+			the developers' notion of cohesion better than traditional structural cohesion measurement.</p>
+
+    <h3>Research Questions</h3>
+ 		<ul>
+				<li><b>How do developers perceive module cohesion? How do they reason about it?</b></li>
+				<li><b>To what extent structural cohesion and conceptual cohesion relate with how developers rate cohesion of modules?</b></li>				
+		</ul>
+		
+	<h3>Pairs of Classes used for Participants' Analysis:</h3>		
+		<ul>
+				<li><a href="surveyFiles/DB_Backend.html" target="_blank">DB_Backend.java</a> vs. <a href="surveyFiles/DB_InsertUpdate.html" target="_blank">DB_InsertUpdate.java</a></li>
+				<li><a href="surveyFiles/Main_Config2.html" target="_blank">Main_Config2.java</a> vs. <a href="surveyFiles/DB_Helpers.html" target="_blank">DB_Helpers.java</a></li>
+				<li><a href="surveyFiles/RelationSpouse.html" target="_blank">RelationSpouse.java</a> vs. <a href="surveyFiles/RelationParentChild.html" target="_blank">RelationParentChild.java</a></li>
+		</ul>
+		
+	<h3>Survey demonstration:</h3>
+	<p><a href="http://cohesion.net76.net/limesurvey/index.php?sid=21286" target="_blank">Please, follow this link (it is hosted on an external server).</a></p>
+	
+	<h3>Raw data collected:</h3>
+ 		<ul>
+				<li><a href="surveyFiles/survey_44763_R_syntax_file.R" target="_blank">R syntax file.</a></li>				
+				<li><a href="surveyFiles/survey_44763_R_data_file.csv" target="_blank">All data collected in csv format.</a></li>
+		</ul>	
+	
+	<h3>Transformation of the ratings output to apply Fleiss Kappa test:</h3>
+ 		<ul>
+				<li><a href="surveyFiles/FunctionsTransformRatings.txt" target="_blank">R functions created for this task.</a></li>				
+				<li><a href="surveyFiles/FleissKappa.txt" target="_blank">Fleiss Kappa in R and results.</a></li>
+		</ul>
+		
+	<h3>Participants' Explanations and Coded topics:</h3>
+ 		<ul>
+				<li>Familiarity with cohesion - <a href="surveyFiles/explanations2ndQuestionCoding.pdf" target="_blank">responses</a> and <a href="surveyFiles/explanations2ndQuestionTopics.pdf" target="_blank">topics.</a></li>				
+				<li>1st scenario of comparison (DB_Backend vs. DB_InsertUpdate) - <a href="surveyFiles/1stScenarioResponses.pdf" target="_blank">responses</a> and <a href="surveyFiles/1stScenarioTopics.pdf" target="_blank">topics.</a></li>				
+				<li>2nd scenario of comparison (Main_Config2 vs. DB_Helpers) - <a href="surveyFiles/2ndScenarioResponses.pdf" target="_blank">responses</a> and <a href="surveyFiles/2ndScenarioTopics.pdf" target="_blank">topics.</a></li>				
+				<li>3rd scenario of comparison (RelationSpouse vs. RelationParentChild) - <a href="surveyFiles/3rdScenarioResponses.pdf" target="_blank">responses</a> and <a href="surveyFiles/3rdScenarioTopics.pdf" target="_blank">topics.</a></li>				
+		</ul>
+		
+	<h3>Fisher exact test:</h3>
+ 		<ul>
+				<li><a href="surveyFiles/FisherTest_CohFam_Ratings.txt">Cohesion familiarity vs. Cohesion ratings (of each scenario).</a></li>				
+				<li><a href="surveyFiles/FisherTest_YearsProgExp_Ratings.txt">Programming experience (years) vs. Cohesion ratings (of each scenario).</a></li>
+				<li><a href="surveyFiles/FisherTest_CohFam_AcademicDegree.txt">Cohesion familiarity vs. Academic degree.</a></li>
+				<li><a href="surveyFiles/FisherTest_AcademicDegree_Ratings.txt">Academic degree vs. Cohesion ratings (of each scenario).</a></li>
+		</ul>
+	
+	<h3>Contact:</h3>
+		<ul>
+				<li><b>Bruno Carreiro da Silva -- brunocs at dcc dot ufba dot br</b></li>
+				<li><b>Claudio Sant'Anna -- santanna at dcc dot ufba dot br</b></li>				
+				<li><b>Christina Chavez -- flach at dcc dot ufba dot br</b></li>				
+		</ul>
+			
+			</div>
+		
+		<!-- content-wrap ends here -->	
+		</div>
+					
+		<!--footer starts here-->
+		<div id="footer">
+			
+			<p>
+			&copy; 2008 <strong><a href="mailto:bruno.carreiro@inf.ufrgs.br">Bruno Carreiro da Silva</strong> | 
+			Design by: <a href="http://www.styleshout.com/">styleshout</a> | 
+			Valid <a href="http://validator.w3.org/check?uri=referer">XHTML</a> | 
+			<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+			
+   		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+&nbsp;|&nbsp;<a href="index.html">Home</a>&nbsp;|&nbsp;<a href="contact.html">Contact</a>&nbsp;|&nbsp;
+   		</p>
+				
+		</div>	
+
+<!-- wrap ends here -->
+</div>
+
+</body>
+</html>
