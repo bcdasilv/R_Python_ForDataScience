@@ -1,0 +1,33 @@
+cohFamiliarity_Experience <- matrix(ncol=6, nrow=80)
+colnames(cohFamiliarity_Experience ) <- c("Coh_Familiarity", "ProgExp", "ProgExpCompColleagues", "Exp_OOP", "Years_Prog", "Years_ProgLargeProj")
+cohFamiliarity_Experience[,1] <- data[,16]
+cohFamiliarity_Experience[,2] <- data[,37]
+cohFamiliarity_Experience[,3] <- data[,38]
+cohFamiliarity_Experience[,4] <- data[,40]
+cohFamiliarity_Experience[,5] <- data[,41]
+cohFamiliarity_Experience[,6] <- data[,42]
+cohFamiliarity_Experience <- as.table(cohFamiliarity_Experience)
+
+# ordering by years of prog experience and exporting to a file
+ write.table (cohFamiliarity_Experience[order(cohFamiliarity_Experience[,5]),], file = "cohFam_Exp_orderedByYearsExp.csv", sep = ",", row.names=FALSE, col.names= TRUE)
+
+=============================================================
+=============================================================
+ADICIONEI UM CAMPO DEPOIS -- ACADEMIC DEGREE
+=============================================================
+=============================================================
+
+cohFamiliarity_Experience <- matrix(ncol=7, nrow=80)
+colnames(cohFamiliarity_Experience ) <- c("Coh_Familiarity", "AcademicDegree", "ProgExp", "ProgExpCompColleagues", "Exp_OOP", "Years_Prog", "Years_ProgLargeProj")
+cohFamiliarity_Experience[,1] <- data[,16]
+cohFamiliarity_Experience[,2] <- data[,25]
+cohFamiliarity_Experience[,3] <- data[,37]
+cohFamiliarity_Experience[,4] <- data[,38]
+cohFamiliarity_Experience[,5] <- data[,40]
+cohFamiliarity_Experience[,6] <- data[,41]
+cohFamiliarity_Experience[,7] <- data[,42]
+cohFamiliarity_Experience <- as.table(cohFamiliarity_Experience)
+cohFamiliarity_Experience
+
+# ordering by academic degree and exporting to a file
+ write.table (cohFamiliarity_Experience[order(cohFamiliarity_Experience[,2]),], file = "cohFam_Exp_orderedByAcademicDegree.csv", sep = ",", row.names=FALSE, col.names= TRUE)
