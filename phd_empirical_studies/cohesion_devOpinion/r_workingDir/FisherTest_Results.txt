@@ -1,0 +1,389 @@
+# http://stat.ethz.ch/R-manual/R-patched/library/stats/html/fisher.test.html
+
+### --------------------------------------------------------------------------- ###
+
+# Creating matrix: cohesion familiarity vs. ratings
+
+> cohFam_Ratings1 <- matrix(c(41,4,26,0, 4,0,4,1), nrow = 2, ncol = 4, byrow = TRUE, dimnames = list(c("Yes", "No"), c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know")))
+
+> cohFam_Ratings1
+   1st more cohesive 2nd more cohesive Equally coh Don't know
+Yes                41                 4          26          0
+No                  4                 0           4          1
+
+>cohFam_Ratings2 <- matrix(c(50,9,12,0, 4,1,3,1), nrow = 2, ncol = 4, byrow = TRUE, dimnames = list(c("Yes", "No"), c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know")))
+
+>cohFam_Ratings2
+    1st more cohesive 2nd more cohesive Equally coh Don't know
+Yes                50                 9          12          0
+No                  4                 1           3          1
+ 
+>cohFam_Ratings3 <- matrix(c(5,41,24,1, 1,2,6,0), nrow = 2, ncol = 4, byrow = TRUE, dimnames = list(c("Yes", "No"), c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know")))
+
+>cohFam_Ratings3
+   1st more cohesive 2nd more cohesive Equally coh Don't know
+Yes                 5                41          24          1
+No                  1                 2           6          0
+
+
+# Executing the Fisher exact test between Cohesion familiarity and Ratings
+
+> fisher.test(cohFam_Ratings1, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  cohFam_Ratings1 
+p-value = 0.1704
+alternative hypothesis: two.sided 
+
+> fisher.test(cohFam_Ratings1)
+
+        Fisher's Exact Test for Count Data
+
+data:  cohFam_Ratings1 
+p-value = 0.1753
+alternative hypothesis: two.sided 
+
+
+> fisher.test(cohFam_Ratings2, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  cohFam_Ratings2 
+p-value = 0.05447
+alternative hypothesis: two.sided 
+
+> fisher.test(cohFam_Ratings2)
+
+        Fisher's Exact Test for Count Data
+
+data:  cohFam_Ratings2 
+p-value = 0.06224
+alternative hypothesis: two.sided 
+
+
+> fisher.test(cohFam_Ratings3, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  cohFam_Ratings3 
+p-value = 0.1544
+alternative hypothesis: two.sided 
+
+> fisher.test(cohFam_Ratings3)
+
+        Fisher's Exact Test for Count Data
+
+data:  cohFam_Ratings3 
+p-value = 0.1523
+alternative hypothesis: two.sided 
+
+### --------------------------------------------------------------------------- ###
+
+# Creating matrix: academic degree vs. cohesion familiarity
+
+>cohFam_AcadDegree <- matrix(c(2,20,10,31,8,0, 0,5,1,2,1,0), nrow = 2, ncol = 6, byrow = TRUE, dimnames = list(c("Yes", "No"), c("Undergrad", "Grad", "Grad Cert Expert", "Master", "PhD", "No degree")))
+> cohFam_AcadDegree
+    Undergrad Grad Grad Cert Expert Master PhD No degree
+Yes         2   20               10     31   8         0
+No          0    5                1      2   1         0
+
+# Executing the Fisher exact test between Academic degree and Cohesion Familiarity
+
+> fisher.test(cohFam_AcadDegree, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  cohFam_AcadDegree 
+p-value = 0.5512
+alternative hypothesis: two.sided 
+
+> fisher.test(cohFam_AcadDegree)
+
+        Fisher's Exact Test for Count Data
+
+data:  cohFam_AcadDegree 
+p-value = 0.5464
+alternative hypothesis: two.sided 
+
+> 
+
+### --------------------------------------------------------------------------- ###
+
+# Creating matrix: academic degree vs. ratings
+
+> ratings1_AcadDegree <- matrix(c(1,12,5,21,6,0, 0,2,0,2,1,0, 1,10,6,10,3,0, 0,1,0,0,0,0), nrow = 4, ncol = 6, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("Undergrad", "Grad", "Grad Cert Expert", "Master", "PhD", "No degree")))
+
+> ratings1_AcadDegree
+                  Undergrad Grad Grad Cert Expert Master PhD No degree
+1st more cohesive         1   12                5     21   6         0
+2nd more cohesive         0    2                0      2   1         0
+Equally coh               1   10                6     10   3         0
+Don't know                0    1                0      0   0         0
+
+
+> ratings2_AcadDegree <- matrix(c(2,17,9,22,5,0, 0,3,2,1,4,0, 0,4,0,10,0,0, 0,1,0,0,0,0), nrow = 4, ncol = 6, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("Undergrad", "Grad", "Grad Cert Expert", "Master", "PhD", "No degree")))
+
+> ratings2_AcadDegree
+                  Undergrad Grad Grad Cert Expert Master PhD No degree
+1st more cohesive         2   17                9     22   5         0
+2nd more cohesive         0    3                2      1   4         0
+Equally coh               0    4                0     10   0         0
+Don't know                0    1                0      0   0         0
+
+> ratings3_AcadDegree <- matrix(c(0,1,1,3,1,0, 1,15,5,17,5,0, 1,9,4,13,3,0, 0,0,1,0,0,0), nrow = 4, ncol = 6, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("Undergrad", "Grad", "Grad Cert Expert", "Master", "PhD", "No degree")))
+
+> ratings3_AcadDegree
+                  Undergrad Grad Grad \nCert Expert Master PhD No degree
+1st more cohesive         0    1                  1      3   1         0
+2nd more cohesive         1   15                  5     17   5         0
+Equally coh               1    9                  4     13   3         0
+Don't know                0    0                  1      0   0         0
+
+
+# Executing the Fisher exact test between Academic degree and Ratings
+
+> fisher.test(ratings1_AcadDegree, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings1_AcadDegree 
+p-value = 0.8656
+alternative hypothesis: two.sided 
+
+> fisher.test(ratings1_AcadDegree)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings1_AcadDegree 
+p-value = 0.8646
+alternative hypothesis: two.sided 
+
+
+> fisher.test(ratings2_AcadDegree, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings2_AcadDegree 
+p-value = 0.04098
+alternative hypothesis: two.sided 
+
+> fisher.test(ratings2_AcadDegree)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings2_AcadDegree 
+p-value = 0.03684
+alternative hypothesis: two.sided 
+
+
+> fisher.test(ratings3_AcadDegree, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings3_AcadDegree 
+p-value = 0.8716
+alternative hypothesis: two.sided 
+
+
+> fisher.test(ratings3_AcadDegree)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings3_AcadDegree 
+p-value = 0.8831
+alternative hypothesis: two.sided 
+
+### --------------------------------------------------------------------------- ###
+
+# Creating matrix: years of programming experience vs. ratings
+
+ratings1_1_YearsProg <- matrix(c(10,11,24, 1,1,2, 10,11,9, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <15", ">=15")))
+
+> ratings1_1_YearsProg
+                  <=5 >5 AND <15 >=15
+1st more cohesive  10         11   24
+2nd more cohesive   1          1    2
+Equally coh        10         11    9
+Don't know          0          1    0
+
+ratings2_1_YearsProg <- matrix(c(14,14,26, 3,4,3, 4,5,6, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <15", ">=15")))
+
+> ratings2_1_YearsProg
+                  <=5 >5 AND <15 >=15
+1st more cohesive  14         14   26
+2nd more cohesive   3          4    3
+Equally coh         4          5    6
+Don't know          0          1    0
+
+ratings3_1_YearsProg <- matrix(c(2,2,2, 10,12,21, 9,9,12, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <15", ">=15")))
+
+> ratings3_1_YearsProg
+                  <=5 >5 AND <15 >=15
+1st more cohesive   2          2    2
+2nd more cohesive  10         12   21
+Equally coh         9          9   12
+Don't know          0          1    0
+
+
+# Executing the Fisher exact test between Years of Prog. Exp. and Ratings
+
+> fisher.test(ratings1_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings1_1_YearsProg 
+p-value = 0.3143
+alternative hypothesis: two.sided 
+
+> fisher.test(ratings1_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings1_1_YearsProg 
+p-value = 0.3084
+alternative hypothesis: two.sided 
+
+
+
+> fisher.test(ratings2_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings2_1_YearsProg 
+p-value = 0.7661
+alternative hypothesis: two.sided 
+
+> fisher.test(ratings2_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings2_1_YearsProg 
+p-value = 0.7696
+alternative hypothesis: two.sided 
+
+
+
+> fisher.test(ratings3_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings3_1_YearsProg 
+p-value = 0.835
+alternative hypothesis: two.sided 
+
+> fisher.test(ratings3_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings3_1_YearsProg 
+p-value = 0.8382
+alternative hypothesis: two.sided 
+
+
+### --------------------------------------------------------------------------- ###
+    ****************************************************************************
+    ****************************************************************************
+    ****************************************************************************
+    **** NOW having the three categories according to 1st, IQR, and 3rd quartile:
+    ****************************************************************************
+    ****************************************************************************
+    ****************************************************************************
+
+# Creating matrix: years of programming experience vs. ratings
+
+ratings1_1_YearsProg <- matrix(c(10,21,14, 1,2,1, 10,15,5, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <12.25", ">=12.25")))
+
+> ratings1_1_YearsProg
+                    <=5 >5 AND <12.25 >=12.25
+1st more cohesive    10            21      14
+2nd more \ncohesive   1             2       1
+Equally coh          10            15       5
+Don't know            0             1       0
+> 
+
+
+ratings2_1_YearsProg <- matrix(c(14,24,16, 3,5,2, 4,9,2, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <12.25", ">=12.25")))
+
+> ratings2_1_YearsProg
+                  <=5 >5 AND <12.25 >=12.25
+1st more cohesive  14            24      16
+2nd more cohesive   3             5       2
+Equally coh         4             9       2
+Don't know          0             1       0
+> 
+
+
+ratings3_1_YearsProg <- matrix(c(2,4,0, 10,19,14, 9,15,6, 0,1,0), nrow = 4, ncol = 3, byrow = TRUE, dimnames = list(c("1st more cohesive", "2nd more cohesive", "Equally coh", "Don't know"), c("<=5", ">5 AND <12.25", ">=12.25")))
+
+> ratings3_1_YearsProg
+                    <=5 >5 AND <12.25 >=12.25
+1st more cohesive     2             4       0
+2nd more \ncohesive  10            19      14
+Equally coh           9            15       6
+Don't know            0             1       0
+
+
+
+# Executing the Fisher exact test between Years of Prog. Exp. and Ratings
+
+> fisher.test(ratings1_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings1_1_YearsProg
+p-value = 0.7716
+alternative hypothesis: two.sided
+
+> fisher.test(ratings1_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings1_1_YearsProg
+p-value = 0.7688
+alternative hypothesis: two.sided
+
+> 
+
+
+> fisher.test(ratings2_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings2_1_YearsProg
+p-value = 0.8851
+alternative hypothesis: two.sided
+
+> 
+
+> fisher.test(ratings2_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings2_1_YearsProg
+p-value = 0.8749
+alternative hypothesis: two.sided
+
+> 
+
+
+
+> fisher.test(ratings3_1_YearsProg, simulate.p.value = TRUE)
+
+        Fisher's Exact Test for Count Data with simulated p-value (based on 2000 replicates)
+
+data:  ratings3_1_YearsProg
+p-value = 0.5867
+alternative hypothesis: two.sided
+
+
+> fisher.test(ratings3_1_YearsProg)
+
+        Fisher's Exact Test for Count Data
+
+data:  ratings3_1_YearsProg
+p-value = 0.5863
+alternative hypothesis: two.sided
+
+> 
+
