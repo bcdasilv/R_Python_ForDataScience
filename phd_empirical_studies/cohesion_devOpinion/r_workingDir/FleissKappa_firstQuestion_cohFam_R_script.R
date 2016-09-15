@@ -1,0 +1,1 @@
+kappam.fleiss(t(data[,16]))

@@ -1,0 +1,11 @@
+
+> kappam.fleiss(t(data[,16]))
+ Fleiss' Kappa for m Raters
+
+ Subjects = 1 
+   Raters = 80 
+    Kappa = -0.0127 
+
+        z = -0.712 
+  p-value = 0.477 
+> 
